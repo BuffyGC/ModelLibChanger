@@ -1,6 +1,6 @@
-# ModelLibChanger  
+# ModelLibChanger for MSFS  
 ModelLibChanger renames incorrect modelLib.BGL files in your community folder and changes the corresponding layout.json..
-Dies verhindert diverse CTD, wenn Add-Ons installiert sind, die den gleichen Dateinamen verwendetn.
+This prevents various CTD if add-ons are installed that use the same file name.
 
 Link to official forum: Scenery creators: please move or rename your modelLib.BGL
 
