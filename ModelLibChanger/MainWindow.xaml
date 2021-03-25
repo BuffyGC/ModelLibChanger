@@ -1,0 +1,147 @@
+﻿<Window x:Class="ModelLibChanger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModelLibChanger"
+        xmlns:ViewModel="clr-namespace:ModelLibChanger.ViewModel" 
+        mc:Ignorable="d"
+        Title="{Binding BaseTitle}" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <!--Setter Property="Height" Value="20" /-->
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style TargetType="{x:Type ListBox}">
+            <!--Setter Property="Height" Value="20" /-->
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Margin" Value="4,6,8,0" />
+        </Style>
+        <Style TargetType="{x:Type DataGridCell}">
+            <!--Setter Property="Height" Value="20" /-->
+            <!-- Setter Property="Margin" Value="30" /-->
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Padding="{TemplateBinding Padding}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <!---Setter Property="Height" Value="20" /-->
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Padding" Value="4,0" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style x:Key="CellRightAlign">
+            <Setter Property="FrameworkElement.HorizontalAlignment"
+            Value="Right" />
+        </Style>
+
+        <Style x:Key="CellWrap">
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="EditModeSwitch">
+            <Setter Property="FrameworkElement.Margin" Value="3" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ModeType}" Value="EditMode">
+                    <Setter Property="UIElement.IsEnabled" Value="true"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ModeType}" Value="ImportMode">
+                    <Setter Property="UIElement.IsEnabled" Value="false"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ImportModeSwitch">
+            <Setter Property="FrameworkElement.Margin" Value="3" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ModeType}" Value="ImportMode">
+                    <Setter Property="UIElement.IsEnabled" Value="true"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ModeType}" Value="EditMode">
+                    <Setter Property="UIElement.IsEnabled" Value="false"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <ViewModel:MainViewModel/>
+    </Window.DataContext>
+
+
+    <Grid Background="#FFE5E5E5" d:DataContext="{d:DesignInstance ViewModel:MainViewModel, IsDesignTimeCreatable=True}">
+        <DockPanel>
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Text="Please select the add-ons where you want to correct the ModelLib.BGL. Please backup your community folder first!" Margin="5" />
+                <Button Grid.Column="1" DockPanel.Dock="Bottom" Command="{Binding CommandRename, Mode=OneWay}" Content="Rename" CommandParameter="{Binding SelectedItems, ElementName=listBox}" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Folder"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CommunityFolder}" IsEnabled="False"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Path..." Command="{Binding CommandSelectPath}" VerticalAlignment="Top" Margin="3,3,3,0"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Add-Ons"/>
+                <Button Grid.Row="1" Grid.Column="2" Content="Read..." Command="{Binding CommandLoadAddOns}" VerticalAlignment="Top" Margin="3,3,3,0"/>
+                <ListView x:Name="listBox" Grid.Row="1" Grid.Column="1"  Grid.RowSpan="2" ItemsSource="{Binding LayoutCollection}" SelectionMode="Extended" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Header="Files (OS)" DisplayMemberBinding="{Binding Content.Count}" />
+                            <GridViewColumn Header="Files (Json)" DisplayMemberBinding="{Binding LayoutFromJson.Content.Count}" />
+                            <GridViewColumn Header="Action" DisplayMemberBinding="{Binding Action}" />
+                            <!-- GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" / -->
+                            <GridViewColumn Header="Path" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Path}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
