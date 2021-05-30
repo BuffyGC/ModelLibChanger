@@ -260,7 +260,8 @@ namespace ModelLibChanger.ViewModel
                     && !string.Equals(relativePath, "business.json", StringComparison.OrdinalIgnoreCase)
                     && !string.Equals(relativePath, "layout.json", StringComparison.OrdinalIgnoreCase)
                     && !string.Equals(relativePath, "layout.json.bak", StringComparison.OrdinalIgnoreCase)
-                    && !string.Equals(relativePath, "manifest.json", StringComparison.OrdinalIgnoreCase))
+                    && !string.Equals(relativePath, "manifest.json", StringComparison.OrdinalIgnoreCase)
+                    && !relativePath.StartsWith("MarketplaceData", StringComparison.OrdinalIgnoreCase))
                 {
                     layout.Content.Add(content);
                 }
