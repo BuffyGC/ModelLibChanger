@@ -139,7 +139,7 @@ namespace ModelLibChanger.ViewModel
                         json = json.Replace("\r\n", "\n");
                         json = json.Replace(@"\\", "/");
 
-                        LongFile.WriteAllText(newLayout.Path + "\\layout.json", json);
+                        LongFile.WriteAllText(newLayout.Path + "\\layout.json", json, new System.Text.UTF8Encoding(false));
 
                         count++;
 
