@@ -24,9 +24,11 @@ namespace ModelLibChanger.Model
         public string Path { get => path; set => SetField(ref path, value); }
         private string path;
 
+        /*
         [JsonIgnore]
         public bool IsSelected { get => isSelected; set => SetField(ref isSelected, value); }
         private bool isSelected = false;
+        */
 
         [JsonIgnore]
         public Layout LayoutFromJson { get => layoutFromJson; set => SetField(ref layoutFromJson, value); }

@@ -79,6 +79,12 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <!--
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        </Style>
+        -->
     </Window.Resources>
 
     <Window.DataContext>
@@ -118,12 +124,13 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Add-Ons"/>
                 <Button Grid.Row="1" Grid.Column="2" Content="Read..." Command="{Binding CommandLoadAddOns}" VerticalAlignment="Top" Margin="3,3,3,0"/>
                 <ListView x:Name="listBox" Grid.Row="1" Grid.Column="1"  Grid.RowSpan="2" ItemsSource="{Binding LayoutCollection}" SelectionMode="Extended" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <!--
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                         </Style>
                     </ListView.ItemContainerStyle>
-
+                    -->
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />

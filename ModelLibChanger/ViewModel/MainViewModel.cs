@@ -85,7 +85,7 @@ namespace ModelLibChanger.ViewModel
 
 
 
-        private void ExecuteRename(object obj)
+        private void ExecuteRename(object selectedItems)
         {
             string errors = string.Empty;
             string messages = string.Empty;
@@ -93,9 +93,11 @@ namespace ModelLibChanger.ViewModel
 
             int count = 0;
 
-            foreach (Layout layout in LayoutCollection)
+            List<Layout> selectedLayouts = (selectedItems as Collection<object>).Cast<Layout>().ToList();
+
+            foreach (Layout layout in selectedLayouts)
             {
-                if (layout.IsSelected)
+                // if (layout.IsSelected)
                 {
                     try
                     {
@@ -160,7 +162,11 @@ namespace ModelLibChanger.ViewModel
             if (errors.Length > 0)
                 MessageBox.Show(errors);
 
-            MessageBox.Show(count + " add-ons with modellib.bgl/layout.json were corrected:\r\n" + messages);
+            if (count < 25)
+                MessageBox.Show(count + " add-ons with modellib.bgl/layout.json were corrected:\r\n" + messages);
+            else
+                MessageBox.Show(count + " add-ons with modellib.bgl/layout.json were corrected.");
+
 
             ExecuteLoadAddOns(null);
         }
